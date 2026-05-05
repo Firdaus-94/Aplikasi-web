@@ -471,21 +471,16 @@ document.querySelectorAll("button").forEach(btn=>{
 });
 
 let deferredPrompt;
+
 const installBtn = document.getElementById("installBtn");
 
-// sembunyikan tombol awal
-installBtn.style.display = "none";
-
-// tangkap event install
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
 
-  console.log("Install prompt siap");
   installBtn.style.display = "block";
 });
 
-// klik tombol
 installBtn.addEventListener("click", async () => {
   if (!deferredPrompt) {
     alert("Install belum tersedia");
@@ -494,25 +489,17 @@ installBtn.addEventListener("click", async () => {
 
   deferredPrompt.prompt();
 
-  const result = await deferredPrompt.userChoice;
+  const choiceResult = await deferredPrompt.userChoice;
 
-  console.log("Hasil:", result.outcome);
-
-  if (result.outcome === "accepted") {
-    console.log("User install app");
-  } else {
-    console.log("User batal install");
-  }
+  console.log(choiceResult.outcome);
 
   deferredPrompt = null;
 });
 
-// register service worker
+// register SW
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js")
-      .then(() => console.log("Service Worker aktif"))
-      .catch(err => console.log("SW error:", err));
+    navigator.serviceWorker.register("/service-worker.js");
   });
 }
 </script>
