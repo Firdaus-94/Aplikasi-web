@@ -1,4 +1,4 @@
-const CACHE_NAME = "asep-music-v1";
+const CACHE_NAME = "asep-v2";
 
 const urlsToCache = [
   "/",
@@ -9,32 +9,24 @@ const urlsToCache = [
   "/icons/icon512.png"
 ];
 
-// install
 self.addEventListener("install", event => {
+  self.skipWaiting();
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => cache.addAll(urlsToCache))
   );
 });
 
-// fetch (ambil dari cache dulu)
+self.addEventListener("activate", event => {
+  event.waitUntil(self.clients.claim());
+});
+
 self.addEventListener("fetch", event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => response || fetch(event.request))
   );
-});
-let deferredPrompt;
-
-const installBtn = document.getElementById("installBtn");
-
-window.addEventListener("beforeinstallprompt", (e) => {
-  e.preventDefault(); // cegah auto popup
-  deferredPrompt = e;
-
-  // tampilkan tombol
-  installBtn.style.display = "block";
-});
+});});
 
 installBtn.addEventListener("click", async () => {
   if (!deferredPrompt) {
