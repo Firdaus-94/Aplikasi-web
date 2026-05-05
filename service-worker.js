@@ -24,3 +24,33 @@ self.addEventListener("fetch", event => {
       .then(response => response || fetch(event.request))
   );
 });
+let deferredPrompt;
+
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault(); // cegah auto popup
+  deferredPrompt = e;
+
+  // tampilkan tombol
+  installBtn.style.display = "block";
+});
+
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) {
+    alert("Install belum tersedia");
+    return;
+  }
+
+  deferredPrompt.prompt();
+
+  const choiceResult = await deferredPrompt.userChoice;
+
+  if (choiceResult.outcome === "accepted") {
+    console.log("User install app");
+  } else {
+    console.log("User batal install");
+  }
+
+  deferredPrompt = null;
+});
