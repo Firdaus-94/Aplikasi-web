@@ -874,13 +874,23 @@ body {
     grid-template-columns: repeat(4, 1fr);
   }
 }
-
+.install-btn {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background: #00ffcc;
+  color: black;
+  border: none;
+  padding: 12px 16px;
+  border-radius: 20px;
+  box-shadow: 0 0 10px #00ffcc;
+  display: none;
+  z-index: 999;
+}
 </style>
 </head>
 
 <body>
-  <button id="installBtn">Install App</button>
-  <div
   <!-- ⬇️ PROGRES BAR -->
 <div id="progress-bar"></div>
 <canvas id="matrix"></canvas>
@@ -888,6 +898,7 @@ body {
 <nav id="navbar">
   <div class="nav-container">
     <div class="logo">MACAN TOTO</div>
+    <button id="installBtn">Install App</button>
 <div class="theme-toggle" id="themeToggle">
   🌙
 </div>
