@@ -1,40 +1,30 @@
-<script>
-// ===============================
-// 🎵 ELEMENT
-// ===============================
-const audio = document.getElementById("bg-music");
-const title = document.getElementById("music-title");
-const cover = document.getElementById("music-cover");
-const progress = document.getElementById("progress");
-const playBtn = document.getElementById("playBtn");
+let deferredPrompt;
 
-// ===============================
-// 🎵 PLAYLIST DEFAULT
-// ===============================
-let playlist = [
-  {
-    title: "SoundHelix 1",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-    cover: "https://picsum.photos/200?1"
-  },
-  {
-    title: "SoundHelix 2",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3",
-    cover: "https://picsum.photos/200?2"
+const installBtn = document.getElementById("installBtn");
+
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  installBtn.style.display = "block";
+});
+
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) {
+    alert("Install belum tersedia");
+    return;
   }
-];
 
-let current = 0;
+  deferredPrompt.prompt();
+  const choiceResult = await deferredPrompt.userChoice;
 
-// ===============================
-// 🎵 LOAD MUSIC
-// ===============================
-function loadMusic(index){
-  const song = playlist[index];
+  console.log(choiceResult.outcome);
 
-  // support API + local
-  const src = song.audio || song.src;
-  const titleText = song.name || song.title;
+  deferredPrompt = null;
+});
+
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("/service-worker.js");
+}  const titleText = song.name || song.title;
   const artist = song.artist_name || "";
   const img = song.image || song.cover;
 
