@@ -1537,50 +1537,33 @@ document.querySelectorAll("button").forEach(btn=>{
 });
 
 let deferredPrompt;
-const installBtn = document.getElementById("installBtn");
 
-// sembunyikan tombol awal
-installBtn.style.display = "none";
+console.log("SCRIPT LOADED");
 
-// tangkap event install
 window.addEventListener("beforeinstallprompt", (e) => {
+  console.log("🔥 PROMPT TERSEDIA");
+
   e.preventDefault();
   deferredPrompt = e;
 
-  console.log("Install prompt siap");
-  installBtn.style.display = "block";
+  document.getElementById("installBtn").style.display = "block";
 });
 
-// klik tombol
-installBtn.addEventListener("click", async () => {
+document.getElementById("installBtn").addEventListener("click", async () => {
+  console.log("TOMBOL DIKLIK");
+
   if (!deferredPrompt) {
-    alert("Install belum tersedia");
+    alert("❌ Install belum tersedia");
     return;
   }
 
   deferredPrompt.prompt();
 
   const result = await deferredPrompt.userChoice;
-
-  console.log("Hasil:", result.outcome);
-
-  if (result.outcome === "accepted") {
-    console.log("User install app");
-  } else {
-    console.log("User batal install");
-  }
+  console.log("HASIL:", result.outcome);
 
   deferredPrompt = null;
 });
-
-// register service worker
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js")
-      .then(() => console.log("Service Worker aktif"))
-      .catch(err => console.log("SW error:", err));
-  });
-}
 </script>
 </body>
 </html>
