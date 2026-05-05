@@ -26,15 +26,7 @@ self.addEventListener("fetch", event => {
     caches.match(event.request)
       .then(response => response || fetch(event.request))
   );
-});});
-
-installBtn.addEventListener("click", async () => {
-  if (!deferredPrompt) {
-    alert("Install belum tersedia");
-    return;
-  }
-
-  deferredPrompt.prompt();
+});  deferredPrompt.prompt();
 
   const choiceResult = await deferredPrompt.userChoice;
 
