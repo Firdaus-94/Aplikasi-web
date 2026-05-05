@@ -26,15 +26,4 @@ self.addEventListener("fetch", event => {
     caches.match(event.request)
       .then(response => response || fetch(event.request))
   );
-});  deferredPrompt.prompt();
-
-  const choiceResult = await deferredPrompt.userChoice;
-
-  if (choiceResult.outcome === "accepted") {
-    console.log("User install app");
-  } else {
-    console.log("User batal install");
-  }
-
-  deferredPrompt = null;
 });
