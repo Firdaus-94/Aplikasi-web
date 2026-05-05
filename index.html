@@ -1537,19 +1537,43 @@ document.querySelectorAll("button").forEach(btn=>{
 });
 
 let deferredPrompt;
+const installBtn = document.getElementById("installBtn");
 
+// sembunyikan tombol awal
+installBtn.style.display = "none";
+
+// tangkap event install
 window.addEventListener("beforeinstallprompt", (e) => {
   e.preventDefault();
   deferredPrompt = e;
-  document.getElementById("installBtn").style.display = "block";
+
+  console.log("Install prompt siap");
+  installBtn.style.display = "block";
 });
 
-document.getElementById("installBtn").onclick = async () => {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt = null;
+// klik tombol
+installBtn.addEventListener("click", async () => {
+  if (!deferredPrompt) {
+    alert("Install belum tersedia");
+    return;
   }
-};
+
+  deferredPrompt.prompt();
+
+  const result = await deferredPrompt.userChoice;
+
+  console.log("Hasil:", result.outcome);
+
+  if (result.outcome === "accepted") {
+    console.log("User install app");
+  } else {
+    console.log("User batal install");
+  }
+
+  deferredPrompt = null;
+});
+
+// register service worker
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
     navigator.serviceWorker.register("/service-worker.js")
