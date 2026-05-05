@@ -1526,7 +1526,9 @@ document.querySelectorAll("button").forEach(btn=>{
 });
 if ("serviceWorker" in navigator) {
   window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js")
+    navigator.serviceWorker.register("/service-worker.js")
+      .then(() => console.log("SW aktif"))
+      .catch(err => console.log(err));
   });
 }
 let deferredPrompt;
