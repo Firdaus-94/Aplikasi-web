@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <link rel="manifest" href="manifest.json">
+  <link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#00ffcc">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -1524,13 +1524,7 @@ document.querySelectorAll("button").forEach(btn=>{
     btn.style.transform = "translate(0,0)";
   });
 });
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/service-worker.js")
-      .then(() => console.log("SW aktif"))
-      .catch(err => console.log(err));
-  });
-}
+
 let deferredPrompt;
 
 window.addEventListener("beforeinstallprompt", (e) => {
@@ -1545,6 +1539,13 @@ document.getElementById("installBtn").onclick = async () => {
     deferredPrompt = null;
   }
 };
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("/sw.js")
+      .then(() => console.log("Service Worker aktif"))
+      .catch(err => console.log("SW error:", err));
+  });
+}
 </script>
 </body>
 </html>
